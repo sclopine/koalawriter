@@ -356,7 +356,6 @@ void MainWindow::writeSettings(void)
 void MainWindow::readSettings(void)
 {
     QSettings settings("KoalaWriter", "KoalaWriter");
-
     settings.beginGroup("Options");
     QRect resolution = QApplication::desktop()->screenGeometry();
     startX = settings.value("startX", 20).toInt();
