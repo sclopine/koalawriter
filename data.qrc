@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/buttons">
+        <file>Icons/background.png</file>
+        <file>Icons/color.png</file>
+        <file>Icons/dx.png</file>
+        <file>Icons/file.png</file>
+        <file>Icons/keyboard.png</file>
+        <file>Icons/load.png</file>
+        <file>Icons/music.png</file>
+        <file>Icons/mute.png</file>
+        <file>Icons/save.png</file>
+        <file>Icons/save_as.png</file>
+        <file>Icons/sx.png</file>
+        <file>Icons/text.png</file>
+        <file>Icons/text_default.png</file>
+        <file>Icons/text_dimension.png</file>
+        <file>Icons/text_less.png</file>
+        <file>Icons/text_more.png</file>
+        <file>Icons/down_arrow.png</file>
+        <file>Icons/mute_red.png</file>
+    </qresource>
+</RCC>
