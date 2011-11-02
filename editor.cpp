@@ -34,6 +34,7 @@ Editor::Editor(int startX, int startY, int width, int height, QColor fontColor, 
     text->setGeometry(rect.x()+1,rect.y()+1,rect.width()-1,rect.height()-1); //Draw text edit 1 pixel smaller than border
     text->viewport()->setAutoFillBackground(false); //make trsparent background but not text
     text->setFrameShape(QFrame::NoFrame); //hide frame
+/***************************************************************
     text->setStyleSheet(
             "QScrollBar:vertical {"
                   "border: 0px;"
@@ -113,6 +114,8 @@ Editor::Editor(int startX, int startY, int width, int height, QColor fontColor, 
                    "background: none;"
               "}"
     );
+*****************************************************************/
+    text->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff); //To make KoalaWriter behave like OmmWriter
     cursor = QCursor();
     this->setMouseTracking(true); //Permit mouse tracking also if no button is pressed
 
@@ -849,7 +852,7 @@ void Editor::updateTextStyle(void)
                         "font-size: "+ QString::number(currentTextDimension) +"px;"
                         "color:"+ currentTextColor.name() +";"
                     "}"
-
+/********************************************************************
                     "QScrollBar:vertical {"
                           "border: 0px;"
                           "background: transparent;"
@@ -927,6 +930,7 @@ void Editor::updateTextStyle(void)
                       "QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {"
                            "background: none;"
                       "}"
+*******************************************************************/
     );
 }
 

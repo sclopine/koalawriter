@@ -11,7 +11,6 @@
 
 MainWindow::MainWindow()
 {
-
     this->lookForBackGround();
     this->lookForClick();
     this->lookForMusic();
@@ -48,7 +47,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    if(event->key() == Qt::Key_Escape){
+    switch (event->key()){
+    case Qt::Key_Escape:
         if(!editor->saved)
         {
             //<thanks trolltech> :)
@@ -63,7 +63,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                    editor->save();
                    //break;
                case QMessageBox::Discard:
-                   qApp->quit();
+                    this->close();
+                   //qApp->quit();
                    //break;
                case QMessageBox::Cancel:
                    break;
@@ -72,16 +73,36 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             }
             //</thanks>
         }else{
-            qApp->quit();
+            this->close();
+            //qApp->quit();
         }
-
         this->writeSettings();
+        break;
+    case Qt::Key_F:
+        if (event->modifiers() & Qt::ControlModifier){
+            this->showFullScreen();
+            break;
+        }
+    case Qt::Key_M:
+        if (event->modifiers() & Qt::ControlModifier){
+            this->showMaximized();//To have a large window once come back from minimization
+            this->showMinimized();
+            break;
+        }
+    case Qt::Key_S:
+        if (event->modifiers() & Qt::ControlModifier){
+            editor->save();
+            break;
+        }
+    default:
+        QWidget::keyPressEvent(event);
     }
 }
 
 void MainWindow::lookForBackGround(void)
 {
-    QString backgroundDirName = qApp->applicationDirPath()+"/Background";
+    QString backgroundDirName = QApplication::applicationDirPath();
+    backgroundDirName += QString("/../Resources/Background");
     backgroundDir = QDir(backgroundDirName);
     //I need only some file types
     backgroundDir.setFilter(QDir::Files);
@@ -89,7 +110,6 @@ void MainWindow::lookForBackGround(void)
     filter << "*.bmp" << "*.gif" << "*.jpg" << "*.jpeg" << "*.png" << "*.pbm" << "*.pgm" << "*.ppm"
                     << "*.tiff" << "*.xbm" << "*.xpm";
     backgroundDir.setNameFilters(filter);
-
     //Create a list of all file
     backgroundList = new QStringList(backgroundDir.entryList());
 }
@@ -149,7 +169,8 @@ void MainWindow::setBackground(int pos)
 
 void MainWindow::lookForClick(void)
 {
-    QString clickDirName = qApp->applicationDirPath()+"/Click";
+    QString clickDirName = QApplication::applicationDirPath();
+    clickDirName += QString("/../Resources/Click");
     clickDir = QDir(clickDirName);
     clickDir.setFilter(QDir::Files);
     QStringList filter;
@@ -211,7 +232,8 @@ void MainWindow::muteClick(void)
 
 void MainWindow::lookForMusic(void)
 {
-    QString musicDirName = qApp->applicationDirPath()+"/Music";
+    QString musicDirName = QApplication::applicationDirPath();
+    musicDirName += QString("/../Resources/Music");
     musicDir = QDir(musicDirName);
     musicDir.setFilter(QDir::Files);
     QStringList filter;
@@ -356,6 +378,7 @@ void MainWindow::writeSettings(void)
 void MainWindow::readSettings(void)
 {
     QSettings settings("KoalaWriter", "KoalaWriter");
+
     settings.beginGroup("Options");
     QRect resolution = QApplication::desktop()->screenGeometry();
     startX = settings.value("startX", 20).toInt();
@@ -365,7 +388,7 @@ void MainWindow::readSettings(void)
     fontColor = settings.value("fontColor", Qt::black).value<QColor>();
     fontSize = settings.value("fontSize", 14).toInt();
     fontFamily = settings.value("fontFamily").toString();
-    opacity = settings.value("opacity",0.0).toDouble();
+    opacity = settings.value("opacity",0.0).toFloat();
     background = settings.value("background", backgroundList->at(0)).toString();
     backgroundColor = settings.value("backgroundColor", Qt::transparent).value<QColor>();
     click = settings.value("click", clickList->at(0)).toString();
